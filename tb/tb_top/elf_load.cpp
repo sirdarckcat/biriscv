@@ -55,6 +55,33 @@ bool elf_load::load(void)
         m_entry_point = ehdr ? (uint32_t)ehdr->e_entry : 0;
     }
 
+    if (!m_target->create_memory(0x80000000, 0xfffffff))
+    {
+        fprintf(stderr, "ERROR: Cannot allocate memory region\n");
+        close (fd);
+        return false;
+    } else {
+        printf("ALLOCATED CACHE\n");
+    }
+
+    if (!m_target->create_memory(0x92000000, 0x1000000))
+    {
+        fprintf(stderr, "ERROR: Cannot allocate memory region\n");
+        close (fd);
+        return false;
+    } else {
+        printf("ALLOCATED UART\n");
+    }
+
+    if (!m_target->create_memory(0xc0000000, 0xfffffff))
+    {
+        fprintf(stderr, "ERROR: Cannot allocate memory region\n");
+        close (fd);
+        return false;
+    } else {
+        printf("ALLOCATED RANDOM MEMORY\n");
+    }
+    
     int section_idx = 0;
     while ((scn = elf_getscn(e, section_idx)) != NULL)
     {

@@ -105,13 +105,19 @@ public:
 
         // Set reset vector
         reset_vector_in.write(MEM_BASE);
-        
         while (true)
         {
             cycles += 1;
             if (cycles >= max_cycles && max_cycles != -1)
                 break;
-
+            if (true) {
+                char serial_byte=read(0x92000004);
+                if (serial_byte) {
+                    printf("%c", serial_byte);
+                    fflush(stdout);
+                    write(0x92000004, 0);
+                }
+            }
             wait();
         }
 

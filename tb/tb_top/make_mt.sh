@@ -1,0 +1,1 @@
+make ENABLE_WAVES=no VERILATE_PARAMS=--trace\ --threads\ 8 EXTRA_CFLAGS=-lpthread SYSTEMC_HOME=~/systemc-2.3.3 VERILATOR_SRC=/usr/local/share/verilator/include TEST_IMAGE=../../../riscv-linux-boot/riscv-linux-boot.elf clean run

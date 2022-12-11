@@ -1,0 +1,31 @@
+bram BRAMDSP           # name of BRAM cell
+    init 1             # set to '1' if BRAM can be initialized
+    abits 11           # number of address bits
+    dbits 32           # number of data bits
+    groups 3           # number of port groups
+    ports  2 4 4        # number of ports in each group
+    wrmode 0 1 1        # set to '1' if this groups is write ports
+    enable 2 4 4        # number of enable bits
+    transp 2 0 0        # transparent (for read ports)
+    clocks 0 1 2        # clock configuration
+    clkpol 1 1 1        # clock polarity configuration
+endbram
+
+# bram BRAMDSP           # name of BRAM cell
+#     init 1             # set to '1' if BRAM can be initialized
+#     abits 10           # number of address bits
+#     dbits 32           # number of data bits
+#     groups 2           # number of port groups
+#     ports  1 1         # number of ports in each group
+#     wrmode 1 0         # set to '1' if this groups is write ports
+#     enable 1 0         # number of enable bits
+#     transp 0 2         # transparent (for read ports)
+#     clocks 1 0         # clock configuration
+#     clkpol 1 1         # clock polarity configuration
+# endbram
+
+
+match BRAMDSP
+    min efficiency 0
+    make_outreg
+endmatch

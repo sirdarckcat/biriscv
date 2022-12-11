@@ -1,0 +1,29 @@
+
+# not included: core/biriscv_xilinx_2r1w.v tcm/dport_axi.v tcm/dport_mux.v tcm/tcm_mem_pmem.v tcm/tcm_mem_ram.v tcm/tcm_mem.v top/riscv_tcm_top.v
+read_verilog core/biriscv_alu.v core/biriscv_csr_regfile.v core/biriscv_csr.v core/biriscv_decoder.v core/biriscv_decode.v core/biriscv_defs.v core/biriscv_divider.v core/biriscv_exec.v core/biriscv_fetch.v core/biriscv_frontend.v core/biriscv_issue.v core/biriscv_lsu.v core/biriscv_mmu.v core/biriscv_multiplier.v core/biriscv_npc.v core/biriscv_pipe_ctrl.v core/biriscv_regfile.v core/biriscv_trace_sim.v core/riscv_core.v dcache/dcache_axi_axi.v dcache/dcache_axi.v dcache/dcache_core_data_ram.v dcache/dcache_core_tag_ram.v dcache/dcache_core.v dcache/dcache_if_pmem.v dcache/dcache_mux.v dcache/dcache_pmem_mux.v dcache/dcache.v icache/icache_data_ram.v icache/icache_tag_ram.v icache/icache.v top/riscv_top.v
+
+proc; opt;
+
+memory_bram -rules bram.bram;
+read_verilog -lib bram.v;
+
+techmap -map add2dsp.v;
+techmap -map +/mul2dsp.v -D DSP_A_MAXWIDTH=16 -D DSP_B_MAXWIDTH=16 -D DSP_A_MINWIDTH=2 -D DSP_B_MINWIDTH=2 -D DSP_Y_MINWIDTH=11 -D DSP_NAME=$__MULDSP;
+
+synth -lut 12 -top riscv_top -flatten;
+
+# nlutmap -luts 0,0,0,0,0,0,0,0,0,0,0,9999912
+
+# dfflegalize -cell $_DFF_?_ 01
+# dfflegalize -cell $_DFF_?_ 01 -cell $_DFFSRE_????_ 01;
+# dfflegalize -cell $_DFFE_PP_ 01
+
+# todo enable
+# dfflegalize -cell $_DFFSR_PPP_ 01
+
+# abc -g simple,-MUX;
+# abc -lut 12
+
+write_json biriscv.json;
+
+
